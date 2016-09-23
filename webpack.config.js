@@ -20,7 +20,19 @@ module.exports  = {
         test: /\.jsx?$/,
         include: __dirname,
         loader: 'babel-loader',
-        exclude: /node_modules/ 
+        exclude: /node_modules/,
+        query: {
+          presets: [
+            "react",
+            "es2015",
+            "stage-1"
+          ],
+          plugins: [
+            "react-hot-loader/babel",
+            "babel-root-slash-import",
+            "transform-runtime"
+          ]
+        }
       },
       {
         test: /\.sss/,
