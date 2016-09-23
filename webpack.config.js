@@ -1,7 +1,12 @@
 const webpack = require('webpack');
 const path = require('path');
 const stringifyLoaders = require('webpack-stringify-loaders');
+
+// PostCSS
 const sugarss = require('sugarss');
+const postcssEasyImport = require('postcss-easy-import');
+const postcssNesting = require('postcss-nesting');
+const autoprefixer = require('autoprefixer');
 
 var StyleLintPlugin = require('stylelint-webpack-plugin');
 
@@ -47,8 +52,7 @@ module.exports  = {
             }
           },
           {
-            loader: 'postcss-loader',
-            query: 'parser=sugarss',
+            loader: 'postcss-loader'
           }
         ])
       },
@@ -56,11 +60,14 @@ module.exports  = {
   },
 
   postcss(webpack) {
-    return [
-      require('postcss-easy-import')({ addDependencyTo: webpack }),
-      require('postcss-nesting')(),
-      require('autoprefixer')(),
-    ];
+    return {
+      plugins: [
+        postcssEasyImport({ addDependencyTo: webpack }),
+        postcssNesting,
+        autoprefixer
+      ],
+      parser: sugarss
+    };
   },
 
   output: {
