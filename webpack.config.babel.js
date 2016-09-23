@@ -11,7 +11,7 @@ import sugarss from 'sugarss';
 // CSS style linter
 import styleLintPlugin from 'stylelint-webpack-plugin';
 
-const isDebug = global.DEBUG === false ? false : !process.argv.includes('--release');
+const isDebug = process.env.NODE_ENV !== 'production';
 
 module.exports  = {
   devtool: 'cheap-module-eval-source-map',
