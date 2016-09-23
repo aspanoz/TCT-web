@@ -1,14 +1,15 @@
-const webpack = require('webpack');
-const path = require('path');
-const stringifyLoaders = require('webpack-stringify-loaders');
+import path from 'path';
+import webpack from 'webpack';
+import stringifyLoaders from 'webpack-stringify-loaders';
 
 // PostCSS
-const sugarss = require('sugarss');
-const postcssEasyImport = require('postcss-easy-import');
-const postcssNesting = require('postcss-nesting');
-const autoprefixer = require('autoprefixer');
+import postcssEasyImport from 'postcss-easy-import';
+import postcssNesting from 'postcss-nesting';
+import autoprefixer from 'autoprefixer';
+import sugarss from 'sugarss';
 
-var StyleLintPlugin = require('stylelint-webpack-plugin');
+// CSS style linter
+import styleLintPlugin from 'stylelint-webpack-plugin';
 
 const isDebug = global.DEBUG === false ? false : !process.argv.includes('--release');
 
@@ -82,7 +83,7 @@ module.exports  = {
   },
 
   plugins: [
-    new StyleLintPlugin({
+    new styleLintPlugin({
       files: '**/*.sss',
       failOnError: false,
       quiet: false,
