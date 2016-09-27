@@ -1,5 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
+
 import stringifyLoaders from 'webpack-stringify-loaders';
 
 // PostCSS
@@ -8,16 +9,34 @@ import postcssNesting from 'postcss-nesting';
 import autoprefixer from 'autoprefixer';
 import sugarss from 'sugarss';
 
-// CSS style linter
-import styleLintPlugin from 'stylelint-webpack-plugin';
+const isDebug = false;
 
-const isDebug = true;
+module.exports = {
+  devtool: 'source-map',
 
-module.exports  = {
-  devtool: 'cheap-module-eval-source-map',
-  debug: isDebug,
   entry: [
     './src/main.js'
+  ],
+
+  output: {
+    path: path.join(__dirname, '/public'),
+    publicPath: '/',
+    filename: 'bundle.js'
+  },
+
+  plugins: [
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
+      compress: {
+        warnings: false
+      }
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    })
   ],
 
   module: {
@@ -49,7 +68,7 @@ module.exports  = {
             query: {
               sourceMap: isDebug,
               modules: true,
-              localIdentName: '[name]_[local]_[hash:base64:3]',
+              localIdentName: '[hash:base64:4]',
             }
           },
           {
@@ -71,24 +90,4 @@ module.exports  = {
     };
   },
 
-  output: {
-    path: path.join(__dirname, '/public'),
-    publicPath: '/',
-    filename: 'bundle.js'
-  },
-
-  devServer: {
-    contentBase: './public',
-    hot: true
-  },
-
-  plugins: [
-    new styleLintPlugin({
-      files: '**/*.sss',
-      failOnError: false,
-      quiet: false,
-    }),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-  ]
-};
+}

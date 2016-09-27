@@ -21,6 +21,7 @@
     "//": "npm test --grep test/<PATTERN>",
     "test": "mocha --compilers js:babel-core/register ",
     "lint": "./node_modules/.bin/eslint src",
+    "build": "webpack --config ./webpack.prod.config.babel.js --progress --colors",
     "start": "webpack-dev-server --hot --inline"
   },
   "author": "Stan Deaf",
